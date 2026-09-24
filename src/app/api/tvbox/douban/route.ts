@@ -337,6 +337,7 @@ function toDoubanCdnPoster(url: string): string {
   } catch {
     return url;
   }
+}
 
 function toDoubanVod(item: DoubanItem, category: TvboxDoubanCategory) {
   const poster = toDoubanCdnPoster(item.poster);
