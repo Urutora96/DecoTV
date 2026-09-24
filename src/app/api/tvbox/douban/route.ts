@@ -323,12 +323,28 @@ function toCategoryResponse() {
   };
 }
 
+function toDoubanCdnPoster(url: string): string {
+  if (!url) return '';
+  try {
+    const parsed = new URL(url);
+    if (
+      parsed.hostname === 'doubanio.com' ||
+      parsed.hostname.endsWith('.doubanio.com')
+    ) {
+      parsed.hostname = 'img.doubanio.cmliussss.com';
+    }
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+
 function toDoubanVod(item: DoubanItem, category: TvboxDoubanCategory) {
+  const poster = toDoubanCdnPoster(item.poster);
   const payload: TvboxEncodedIdPayload = {
     kind: 'douban',
     id: item.id,
     title: item.title,
-    poster: item.poster,
+    poster,
     year: item.year,
     rate: item.rate,
     typeName: category.type_name,
@@ -337,7 +353,7 @@ function toDoubanVod(item: DoubanItem, category: TvboxDoubanCategory) {
   return {
     vod_id: encodeTvboxId(payload),
     vod_name: item.title,
-    vod_pic: item.poster,
+    vod_pic: poster,
     vod_remarks: item.rate ? `豆瓣 ${item.rate}` : item.year || '',
     vod_year: item.year || '',
     type_name: category.type_name,
