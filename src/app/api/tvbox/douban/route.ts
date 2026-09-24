@@ -540,8 +540,8 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const ids = getLastNonEmptySearchParam(searchParams, ['ids', 'id']);
-    if (ac === 'detail' || ids) {
+    const ids = getLastNonEmptySearchParam(searchParams, ['ids', 'id', 'vod_id']);
+    if (ids) {
       const vod = await getDetailVod(request, ids);
       return jsonText({
         code: 1,
